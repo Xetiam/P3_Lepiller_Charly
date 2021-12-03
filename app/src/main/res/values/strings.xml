@@ -12,5 +12,8 @@
 
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
-    <string name="title_cardview_2">A propos de moi</string>
+    <string name="title_cardView_2">A propos de moi</string>
+    <string name="back_btn_content">Back Button</string>
+    <string name="profile_pic_content">Neighbour\'s profile picture</string>
+    <string name="add_fav_button_content">Add to Favorites Button</string>
 </resources>

@@ -13,21 +13,31 @@ import android.view.ViewGroup;
 import com.openclassrooms.entrevoisins.R;
 
 
-import com.openclassrooms.entrevoisins.events.DeleteNeighbourEvent;
+import com.openclassrooms.entrevoisins.di.DI;
+import com.openclassrooms.entrevoisins.events.DeleteFavoriteEvent;
 import com.openclassrooms.entrevoisins.model.Neighbour;
+import com.openclassrooms.entrevoisins.service.NeighbourApiService;
+import com.openclassrooms.entrevoisins.ui.neighbour_list.adapter.MyNeighbourRecyclerViewAdapter;
+
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.List;
+import java.util.Objects;
 
 public class FavoriteFragment extends Fragment {
-    public List<Neighbour> favNeighbours;
+    private NeighbourApiService mApiService;
+    List<Neighbour> favNeighbours;
     private RecyclerView mRecyclerView;
 
     public static FavoriteFragment newInstance() {
-        FavoriteFragment fragment = new FavoriteFragment();
-        return fragment;
+        return new FavoriteFragment();
+    }
+    @Override
+    public void onCreate(Bundle savedInstanceState){
+        super.onCreate(savedInstanceState);
+        mApiService = DI.getNeighbourApiService();
     }
 
     @Override
@@ -36,8 +46,19 @@ public class FavoriteFragment extends Fragment {
         Context context = view.getContext();
         mRecyclerView = (RecyclerView) view;
         mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
-        mRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(),DividerItemDecoration.VERTICAL));
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(Objects.requireNonNull(getContext()),DividerItemDecoration.VERTICAL));
         return  view;
+    }
+
+    private void initList() {
+        favNeighbours = mApiService.getFavorites();
+        mRecyclerView.setAdapter(new MyNeighbourRecyclerViewAdapter(favNeighbours, 1));
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        initList();
     }
 
     @Override
@@ -53,7 +74,8 @@ public class FavoriteFragment extends Fragment {
     }
 
     @Subscribe
-    public void onDeleteNeighbour(DeleteNeighbourEvent event) {
-        favNeighbours.remove(event.neighbour);
+    public void onDeleteNeighbour(DeleteFavoriteEvent event) {
+        mApiService.deleteFavorites(event.neighbour);
+        initList();
     }
 }
