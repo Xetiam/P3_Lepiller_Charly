@@ -1,5 +1,7 @@
 package com.openclassrooms.entrevoisins.model;
 
+import android.support.annotation.NonNull;
+
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -53,6 +55,9 @@ public class Neighbour implements Serializable {
     public String getName() {
         return name;
     }
+    public String getUrl() {
+        return "www.facebook.fr/" + getName();
+    }
 
     public void setName(String name) {
         this.name = name;
@@ -67,7 +72,7 @@ public class Neighbour implements Serializable {
     }
 
     public String getAddress() {
-        return address;
+        return address.replace(";", "à");
     }
 
     public void setAddress(String address) {
@@ -101,5 +106,11 @@ public class Neighbour implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    public String profilePicStringFormatter(@NonNull Neighbour neighbour){
+        String str = neighbour.getAvatarUrl();
+        str = str.replace("150","500");
+        return str;
     }
 }

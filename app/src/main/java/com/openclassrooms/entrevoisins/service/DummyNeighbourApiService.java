@@ -48,7 +48,6 @@ public class DummyNeighbourApiService implements NeighbourApiService {
     }
     @Override
     public void createFavorite(Neighbour neighbour) {
-        System.out.println("test");
         favorites.add(neighbour);
     }
 }

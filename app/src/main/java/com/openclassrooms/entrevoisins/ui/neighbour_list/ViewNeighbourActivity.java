@@ -7,6 +7,8 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.content.res.AppCompatResources;
+import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -32,30 +34,29 @@ public class ViewNeighbourActivity extends AppCompatActivity {
         Neighbour neighbour = (Neighbour) getIntent().getSerializableExtra("neighbour");
 
 
-        findViewById(R.id.backButton).bringToFront();
         findViewById(R.id.nameTitle).bringToFront();
 
         ImageView neighbourAvatar = (ImageView) findViewById(R.id.neighbourAvatar);
         Glide.with(this)
-                .load(profilePicStringFormatter(neighbour))
+                .load(neighbour.profilePicStringFormatter(neighbour))
+                .placeholder(getDrawable(R.drawable.placeholder))
                 .into(neighbourAvatar);
 
-        bindTextView("   " + neighbour.getName(), findViewById(R.id.neighbourName));
+        bindTextView(neighbour.getName(), findViewById(R.id.neighbourName));
 
-        bindTextView("   " + neighbour.getName(), findViewById(R.id.nameTitle));
+        bindTextView(neighbour.getName(), findViewById(R.id.nameTitle));
 
-        String newAddress = "   " + neighbour.getAddress().replace(";", "à");
-        bindTextView(newAddress, findViewById(R.id.neighbourAddress));
+        bindTextView(neighbour.getAddress(), findViewById(R.id.neighbourAddress));
 
-        bindTextView("   " + neighbour.getPhoneNumber(), findViewById(R.id.neighbourPhone));
+        bindTextView(neighbour.getPhoneNumber(), findViewById(R.id.neighbourPhone));
 
-        String neighbourUrl = "www.facebook.fr/" + neighbour.getName();
-        bindTextView("   " + neighbourUrl, findViewById(R.id.neighbourUrl));
+        bindTextView(neighbour.getUrl(), findViewById(R.id.neighbourUrl));
 
         bindTextView(neighbour.getAboutMe(), findViewById(R.id.neighbourAboutMe));
 
-        ImageView backButton = (ImageView) findViewById(R.id.backButton);
-        backButton.setOnClickListener(v -> finish());
+        Toolbar mActionBar = findViewById(R.id.toolbar);
+        mActionBar.setNavigationIcon(getResources().getDrawable(R.drawable.ic_baseline_arrow_back_24));
+        mActionBar.setNavigationOnClickListener(v -> finish());
 
         FloatingActionButton addFavorite = findViewById(R.id.fav);
         if(mApiService.getFavorites().contains(neighbour)){
@@ -65,7 +66,7 @@ public class ViewNeighbourActivity extends AppCompatActivity {
         addFavorite.setOnClickListener(v -> {
             if(mApiService.getFavorites().contains(neighbour)){
                 mApiService.deleteFavorites(neighbour);
-                addFavorite.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#"+Integer.toHexString(ContextCompat.getColor(getApplicationContext(), R.color.white)))));
+                addFavorite.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(getApplicationContext(), R.color.white)));
                 addFavorite.setImageDrawable(AppCompatResources.getDrawable(getApplicationContext(), R.drawable.ic_baseline_star_24));
             }
             else{
@@ -80,10 +81,5 @@ public class ViewNeighbourActivity extends AppCompatActivity {
         view.setText(text);
     }
 
-    private String profilePicStringFormatter(Neighbour neighbour){
-        String str = neighbour.getAvatarUrl();
-        str = str.replace("150","500");
-        return str;
-    }
 }
 
