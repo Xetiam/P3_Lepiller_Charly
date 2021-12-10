@@ -108,7 +108,7 @@ public class Neighbour implements Serializable {
         return Objects.hash(id);
     }
 
-    public String profilePicStringFormatter(@NonNull Neighbour neighbour){
+    public String profilePicStringFormatter(Neighbour neighbour){
         String str = neighbour.getAvatarUrl();
         str = str.replace("150","500");
         return str;
