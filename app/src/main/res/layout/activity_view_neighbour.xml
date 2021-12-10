@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/backNeighbourView">
 
-    <android.support.v7.widget.Toolbar
+    <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -33,8 +33,7 @@
         app:layout_constraintTop_toTopOf="parent"
         android:contentDescription="@string/profile_pic_content" />
 
-    <android.support.design.widget.FloatingActionButton
-
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fav"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -48,7 +47,7 @@
         app:srcCompat="@drawable/ic_baseline_star_24"
         android:contentDescription="@string/add_fav_button_content" />
 
-    <android.support.v7.widget.CardView
+    <androidx.cardview.widget.CardView
         app:cardUseCompatPadding="true"
         android:layout_marginHorizontal="@dimen/short_margin"
         android:layout_marginTop="@dimen/short_margin"
@@ -111,9 +110,9 @@
                 app:drawableStartCompat="@drawable/ic_neighbour_url_24" />
 
         </LinearLayout>
-    </android.support.v7.widget.CardView>
+    </androidx.cardview.widget.CardView>
 
-    <android.support.v7.widget.CardView
+    <androidx.cardview.widget.CardView
         app:cardUseCompatPadding="true"
         android:layout_marginTop="@dimen/fab_margin"
         android:layout_marginHorizontal="@dimen/short_margin"
@@ -147,5 +146,5 @@
                 android:layout_marginHorizontal="@dimen/fab_margin"
                 android:layout_marginBottom="@dimen/fab_margin"/>
         </LinearLayout>
-    </android.support.v7.widget.CardView>
-</android.support.constraint.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</androidx.constraintlayout.widget.ConstraintLayout>

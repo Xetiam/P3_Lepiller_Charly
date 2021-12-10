@@ -1,4 +1,3 @@
-
 package com.openclassrooms.entrevoisins.neighbour_list;
 
 
@@ -41,16 +40,21 @@ public class NeighboursListTest {
     // This is fixed
     private static int ITEMS_COUNT = 12;
 
-    private ListNeighbourActivity mActivity;
-
     @Rule
-    public ActivityTestRule<ListNeighbourActivity> mActivityRule =
-            new ActivityTestRule(ListNeighbourActivity.class);
+    public ActivityScenarioRule<ListNeighbourActivity> mActivityRule = new ActivityScenarioRule<>(ListNeighbourActivity.class);
+
+    private ListNeighbourActivity mActivity;
 
     @Before
     public void setUp() {
-        mActivity = mActivityRule.getActivity();
+        Intents.init();
+        mActivityRule.getScenario().onActivity(activity -> mActivity = activity);
         assertThat(mActivity, notNullValue());
+    }
+
+    @After
+    public void tearDown() {
+        Intents.release();
     }
 
     /**
@@ -59,7 +63,7 @@ public class NeighboursListTest {
     @Test
     public void myNeighboursList_shouldNotBeEmpty() {
         // First scroll to the position that needs to be matched and click on it.
-        onView(ViewMatchers.withId(R.id.list_neighbours))
+        onView(allOf(isDisplayed(), withId(R.id.list_neighbours)))
                 .check(matches(hasMinimumChildCount(1)));
     }
 
@@ -78,12 +82,12 @@ public class NeighboursListTest {
     @Test
     public void myNeighboursList_deleteAction_shouldRemoveItem() {
         // Given : We remove the element at position 2
-        onView(ViewMatchers.withId(R.id.list_neighbours)).check(withItemCount(ITEMS_COUNT));
+        onView(allOf(withId(R.id.list_neighbours), isDisplayed())).check(withItemCount(ITEMS_COUNT));
         // When perform a click on a delete icon
-        onView(ViewMatchers.withId(R.id.list_neighbours))
+        onView(allOf(withId(R.id.list_neighbours), isDisplayed()))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(1, new DeleteViewAction()));
         // Then : the number of element is 11
-        onView(ViewMatchers.withId(R.id.list_neighbours)).check(withItemCount(ITEMS_COUNT-1));
+        onView(allOf(withId(R.id.list_neighbours), isDisplayed())).check(withItemCount(ITEMS_COUNT - 1));
     }
 
     @Test

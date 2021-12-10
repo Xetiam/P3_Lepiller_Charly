@@ -1,6 +1,5 @@
 package com.openclassrooms.entrevoisins.model;
 
-import android.support.annotation.NonNull;
 
 import java.io.Serializable;
 import java.util.Objects;
