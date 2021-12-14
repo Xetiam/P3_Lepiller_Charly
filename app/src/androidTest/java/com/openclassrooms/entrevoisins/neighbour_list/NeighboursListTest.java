@@ -8,8 +8,10 @@ import static androidx.test.espresso.intent.Intents.intended;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import static androidx.test.espresso.matcher.ViewMatchers.assertThat;
 import static androidx.test.espresso.matcher.ViewMatchers.hasMinimumChildCount;
+import static androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static com.openclassrooms.entrevoisins.utils.RecyclerViewItemCountAssertion.withItemCount;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.core.IsNull.notNullValue;
@@ -22,7 +24,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import com.openclassrooms.entrevoisins.R;
 import com.openclassrooms.entrevoisins.ui.neighbour_list.AddNeighbourActivity;
 import com.openclassrooms.entrevoisins.ui.neighbour_list.ListNeighbourActivity;
-import com.openclassrooms.entrevoisins.ui.neighbour_list.ViewNeighbourActivity;
+import com.openclassrooms.entrevoisins.ui.neighbour_list.ViewNeighbourDetailActivity;
 import com.openclassrooms.entrevoisins.utils.DeleteViewAction;
 
 import org.junit.After;
@@ -72,7 +74,7 @@ public class NeighboursListTest {
         //Check that on click on an element of the recyclerview open ViewNeighbourActivity
         onView(allOf(isDisplayed(), withId(R.id.list_neighbours)))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
-        intended(hasComponent(ViewNeighbourActivity.class.getName()));
+        intended(hasComponent(ViewNeighbourDetailActivity.class.getName()));
 
     }
 
@@ -92,10 +94,34 @@ public class NeighboursListTest {
 
     @Test
     public void myNeighboursList_shouldOpenAddNeighbour() {
-        //Check that on click on an element of the recyclerview open ViewNeighbourActivity
+        //Check that on click on an element of the recyclerview open AddNeighbourActivity
         onView(allOf(isDisplayed(), withId(R.id.add_neighbour)))
                 .perform(click());
         intended(hasComponent(AddNeighbourActivity.class.getName()));
 
+    }
+
+    @Test
+    public void myNeighboursList_shouldLoadNeighbourOnClick() {
+        //Check that when open ViewNeighbourActivity neighbour is correctly loaded
+        onView(allOf(isDisplayed(), withId(R.id.list_neighbours)))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+        onView(allOf(isDisplayed(), withId(R.id.neighbourName)))
+                .check(matches(withText("Caroline")));
+    }
+
+    @Test
+    public void myNeighboursList_shouldGoToFavoriteList() {
+        onView(allOf(isDisplayed(), withId(R.id.list_neighbours)))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+        onView(allOf(isDisplayed(), withId(R.id.fav)))
+                .perform(click());
+        onView(allOf(isDisplayed(), withId(R.id.toolbar)))
+                .perform(click());
+
+        onView(allOf(withText("Favorites"), isDescendantOfA(withId(R.id.tabs))))
+                .perform(click());
+        onView(allOf(isDisplayed(), withId(R.id.list_neighbours)))
+                .check(withItemCount(1));
     }
 }

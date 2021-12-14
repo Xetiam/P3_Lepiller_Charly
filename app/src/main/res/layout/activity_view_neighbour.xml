@@ -86,7 +86,6 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/short_margin"
                 android:drawablePadding="16dp"
-                tools:text="Caroline"
                 app:drawableStartCompat="@drawable/ic_neighbour_address_24" />
 
 

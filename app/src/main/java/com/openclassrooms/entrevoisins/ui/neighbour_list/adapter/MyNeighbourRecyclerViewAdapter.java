@@ -1,14 +1,12 @@
 package com.openclassrooms.entrevoisins.ui.neighbour_list.adapter;
 
 import android.content.Intent;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,7 +17,7 @@ import com.openclassrooms.entrevoisins.R;
 import com.openclassrooms.entrevoisins.events.DeleteFavoriteEvent;
 import com.openclassrooms.entrevoisins.events.DeleteNeighbourEvent;
 import com.openclassrooms.entrevoisins.model.Neighbour;
-import com.openclassrooms.entrevoisins.ui.neighbour_list.ViewNeighbourActivity;
+import com.openclassrooms.entrevoisins.ui.neighbour_list.ViewNeighbourDetailActivity;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -56,16 +54,15 @@ public class MyNeighbourRecyclerViewAdapter extends RecyclerView.Adapter<MyNeigh
                 .into(holder.mNeighbourAvatar);
 
         holder.mDeleteButton.setOnClickListener(v -> {
-            if(fragmentType == 0){
+            if (fragmentType == 0) {
                 EventBus.getDefault().post(new DeleteNeighbourEvent(neighbour));
-            }
-            else{
+            } else {
                 EventBus.getDefault().post(new DeleteFavoriteEvent(neighbour));
             }
         });
         holder.itemView.setOnClickListener(v -> {
             Neighbour neighbour1 = mNeighbours.get(position);
-            Intent intentViewNeighbour = new Intent(holder.mNeighbourAvatar.getContext(), ViewNeighbourActivity.class);
+            Intent intentViewNeighbour = new Intent(holder.mNeighbourAvatar.getContext(), ViewNeighbourDetailActivity.class);
             intentViewNeighbour.putExtra("neighbour", neighbour1);
             holder.mNeighbourAvatar.getContext().startActivity(intentViewNeighbour);
         });

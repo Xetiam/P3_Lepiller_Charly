@@ -21,7 +21,7 @@ import com.openclassrooms.entrevoisins.service.NeighbourApiService;
 import butterknife.ButterKnife;
 
 //Display profile user with description and their avatar
-public class ViewNeighbourActivity extends AppCompatActivity {
+public class ViewNeighbourDetailActivity extends AppCompatActivity {
     private NeighbourApiService mApiService;
 
     @Override
@@ -64,8 +64,7 @@ public class ViewNeighbourActivity extends AppCompatActivity {
                 mApiService.deleteFavorites(neighbour);
                 addFavorite.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(getApplicationContext(), R.color.white)));
                 addFavorite.setImageDrawable(AppCompatResources.getDrawable(getApplicationContext(), R.drawable.ic_baseline_star_24));
-            }
-            else {
+            } else {
                 mApiService.createFavorite(neighbour);
                 addFavorite.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#" + Integer.toHexString(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimaryDark)))));
                 addFavorite.setImageDrawable(AppCompatResources.getDrawable(getApplicationContext(), R.drawable.ic_baseline_star_24_selected));
